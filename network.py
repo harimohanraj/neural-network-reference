@@ -53,24 +53,33 @@ class Network():
     def add_layer(self, layer):
         """Add new layer to neural network"""
         self.layers.append(layer)
-        if layer: # only generate weights for non-input layers
+        if len(self.layers) > 1: # only generate weights for non-input layers
             self.weights.append(self.generate_weights())
-            self.biases.append(np.random.standard_normal())
+            self.biases.append(np.random.rand())
 
     def generate_weights(self):
         """Look at two most recent layers added and generate weights for 
         connections between them"""
-        num_weights = self.layers[-1].size * self.layers[-2].size
-        return np.random.standard_normal(num_weights)
+        return np.random.rand(self.layers[-1].size, self.layers[-2].size)
 
-    def backpropagation(self):
-        a1 = data
-        weighted_inputs = []
+    def backpropagation(self, x, y):
+        # initialize 
         activations = []
-        for index, layer in enumerate(self.layers[1:]):
-            z_i = np.dot(self.layers[layer+1])
-            weighted_inputs.append()
+        weighted_inputs = []
+
+        # feedforward
+        activation = x
+        weights_and_biases = zip(self.weights, self.biases)
+        activations.append(activation)
         
+        for w,b in weights_and_biases:
+            weighted_input = np.dot(w, activation) + b
+            activation = sigmoid(weighted_input) # need to replace with layer-specific activation
+            
+            activations.append(activation)
+            weighted_inputs.append(weighted_input)
+        
+        # backward pass
     
     def __str__(self):
         architecture = " => ".join([layer.name for layer in self.layers]) + "\n\n"
@@ -95,7 +104,7 @@ class Optimizer():
 # Setup network
 net1 = Network("Test Network 1")
 input1 = Layer("Input", 2)
-hidden1 = Layer("Hidden", 3)
+hidden1 = Layer("Hidden", 2)
 output1 = Layer("Output", 2)
 
 # Add some layers
