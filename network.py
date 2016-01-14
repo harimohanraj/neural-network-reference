@@ -22,9 +22,9 @@ class Activation():
     
     def sigmoid(self, x, derivative=False):
         if derivative:
-            return x*(1-x)
+            return ((1/1+np.exp(-x)))*(1-((1/1+np.exp(-x))))
         else:
-            return 1/(1+np.exp(x))
+            return 1/(1+np.exp(-x))
     
     def __str__(self):
         function_source = inspect.getsource(self.activation_func)
@@ -62,6 +62,12 @@ class Network():
         connections between them"""
         return np.random.rand(self.layers[-1].size, self.layers[-2].size)
 
+    def sigmoid(self, x, derivative=False):
+        if derivative:
+            return ((1/1+np.exp(-x)))*(1-((1/1+np.exp(-x))))
+        else:
+            return 1/(1+np.exp(-x))
+    
     def backpropagation(self, x, y):
         # initialize 
         activations = []
@@ -74,12 +80,29 @@ class Network():
         
         for w,b in weights_and_biases:
             weighted_input = np.dot(w, activation) + b
-            activation = sigmoid(weighted_input) # need to replace with layer-specific activation
+            activation = self.sigmoid(weighted_input) 
+            # need to replace with layer-specific activation
             
             activations.append(activation)
             weighted_inputs.append(weighted_input)
         
         # backward pass
+        gradient_b = [np.zeros(b.shape) for b in self.biases]
+        gradient_w = [np.zeros(w.shape) for w in self.weights]
+        
+        delta = (activations[-1] - y) * \
+                self.sigmoid(activations[-1], derivative=True)
+                # need to replace with layer-specific activation
+        gradient_b[-1] = delta
+        gradient_w[-1] = np.dot(delta, activations[-2].transpose())
+
+        for l in range(2, len(self.layers)):
+            delta = np.dot(self.weights[-l].T, delta) * \
+                    self.sigmoid(weighted_inputs[-l], derivative=True)
+            gradient_w[-l] = np.dot(activations[-l], delta)
+            gradient_b[-l] = delta
+            
+            
     
     def __str__(self):
         architecture = " => ".join([layer.name for layer in self.layers]) + "\n\n"
