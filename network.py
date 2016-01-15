@@ -13,23 +13,6 @@ goddamn things work.
 import numpy as np
 import inspect
 
-
-class Activation():
-    def __init__(self, activation_type):
-        self.activation_type = activation_type
-        if activation_type == "sigmoid":
-            self.activation_func = self.sigmoid
-    
-    def sigmoid(self, x, derivative=False):
-        if derivative:
-            return ((1/1+np.exp(-x)))*(1-((1/1+np.exp(-x))))
-        else:
-            return 1/(1+np.exp(-x))
-    
-    def __str__(self):
-        function_source = inspect.getsource(self.activation_func)
-        return "Activation Object \nType: %s \nSource:  \n %s" % \
-        (self.activation_type, function_source)
     
     
 class Layer():
@@ -41,6 +24,8 @@ class Layer():
     def __str__(self):
         return "Layer: %s \nNumber of nodes: %s \nActivation Type: %s" % \
         (self.name, self.size, self.activation.activation_type)
+
+
 
 
 class Network():
