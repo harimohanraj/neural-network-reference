@@ -7,6 +7,8 @@ Created on Thu Jan 14 17:37:32 2016
 
 import numpy as np
 from layers import *
+from optimizations import *
+from costs import *
 
 
 class Network():
@@ -66,11 +68,35 @@ class Network():
         # 5. Output gradient
         return gradients_at_w, gradients_at_b
     
-    def train(self, training_x, training_y, iterations=10000):
+    def train(self, training_x, training_y, learning_rate, \
+                    batch_size=10, iterations=5000):
+        # initialize weights
         self.weights, self.biases = self.generate_weights_and_biases(training_x)
-        for i in range(0,iterations):
-            for 
-    
+        
+        # stochastic gradient descent
+        for i in range(0,iterations, batch_size):
+            
+            # shuffle data and create batch
+            data = np.concatenate((training_x, training_y), axis=1)
+            np.random.shuffle(data)
+            batch = np.data[i::batch_size]
+            
+            grad_b = [np.zeros(b.shape) for b in self.biases]
+            grad_w = [np.zeros(w.shape) for w in self.weights]
+            for i in batch:
+                x = data[i, :len(training_x)]
+                y = data[i, len(training_y):]
+                delta_w, delta_b = self.backpropagation(x, y)
+                grad_w = [nw+dnw for nw, dnw in zip(grad_w, delta_w)]
+                grad_b = [nb+dnb for nb, dnb in zip(grad_b, delta_b)]
+            
+            # update weights and biases
+            self.weights = [w-learning_rate*grad for w,grad in zip(self.weights, grad_w)]
+            self.biases = [b-learning_rate*grad for b,grad in zip(self.biases, grad_b)]
+        
+            # calculate training cost, etc for epoch
+                
+                
     def __str__(self):
         opt_method = "Optimizer: " + self.optimizer + "\n"
         cost_func = "Cost Function: " + self.cost.__class__.__name__ + "\n"
