@@ -21,14 +21,7 @@ class Layer():
     @staticmethod
     def derivative(x):
         return 1
-        
-    def generate_weights(self, input_size):
-        """ 
-        ~ structure it as (l+1)th layer * lth layer matrix because we want
-        inputs into current layer's nodes 
-        """
-        self.weights = np.random.randn(self.size, input_size) / np.sqrt(input_size)
-    
+
     def __str__(self):
         return "Layer: %s \nNumber of nodes: %s" % (self.name, self.size)
          
@@ -58,19 +51,6 @@ class tanhLayer(Layer):
     def __str__(self):
         return super(tanhLayer, self).__str__() + "\nType: Tanh"
         
-        
-class softmaxLayer(Layer):
-    """ Output layer only! """
-    @staticmethod
-    def function(x, all_x):
-        return np.exp(x) / np.sum(np.exp(all_x))
-    
-    @staticmethod
-    def derivative(x):
-        pass
-    
-    def __str__(self):
-        return super(softmaxLayer, self).__str__() + "\nType: Softmax"
         
 class reluLayer(Layer): 
     @staticmethod

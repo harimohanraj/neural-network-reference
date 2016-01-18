@@ -8,46 +8,35 @@ Created on Sat Jan 16 21:17:19 2016
 import numpy as np
 
 class Cost():
-    def __init__():
+    def __init__(self): 
         pass
     
-    def function(y, x):
+    def function(y, a): 
         pass
     
-    def derivative(y, x):
+    def derivative(y, a):
         pass
     
     
-class MeanSquareError(Cost):
-    # update this so it deals with multiple output nodes
+class MeanSquaredError(Cost):
     @staticmethod
-    def function(y, x, fn):
-        return np.power((y - fn(x)),2) / 2
+    def function(y, a):
+        return (1 / len(y)) * np.sum(np.power((y - a, 2)))
     
     @staticmethod
-    def derivative(y, x, fn):
-        return fn(x) - y
+    def derivative(y, a):
+        return a - y
 
 class CrossCategoricalEntropyError(Cost):
-    # update this so it deals with multiple output nodes
     @staticmethod
-    def function(y, x, fn):
-        return y
+    def function(y, a):
+        return (-1 / len(y)) * np.sum(np.nan_to_num(y * np.log(a) + (1 - y) * np.log(1 - a)))
     
     @staticmethod
-    def derivative(y, x, fn):
-        return y
+    def derivative(y, a):
+        return a - y
         
-class LogLikelihoodError(Cost):
-    # update this so it deals with multiple output nodes
-     @staticmethod
-    def function(y, x, fn):
-        return y
-    
-    @staticmethod
-    def derivative(y, x, fn):
-        return y
-        
+
         
         
         
