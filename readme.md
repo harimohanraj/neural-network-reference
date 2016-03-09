@@ -4,4 +4,4 @@
 * Currently based on Numpy ndarrays / not suitable for actual training tasks.
 * Much of my understanding and consequent implementation is a generalized form of the implementation worked through in Michael Nielsen's Neural Networks and Deep Learning
 
-<a href='http://www.recurse.com' title='Made with love at the Recurse Center'><img src='https://cloud.githubusercontent.com/assets/2883345/11322974/9e572610-910b-11e5-9775-698cbe868a67.png' height='59px'/></a>
+<a href='http://www.recurse.com' title='Made with love at the Recurse Center'><img src='https://cloud.githubusercontent.com/assets/2883345/11322972/9e553260-910b-11e5-8de9-a5bf00c352ef.png' height='59px'/></a>
